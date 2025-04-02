@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symptom Checker | Althea</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-2xl w-full">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Symptom Checker</h1>
+        <p class="text-center text-gray-600 mb-6">Enter your symptoms to get a predicted medical condition.</p>
+        
+        <form id="symptomForm" method="POST" action="/symptom-checker" class="space-y-4">
+            <textarea name="symptoms" id="symptoms" rows="4" placeholder="Describe your symptoms here..." 
+                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" required></textarea>
+            
+            <button type="submit" 
+                class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition transform hover:scale-105">
+                Predict
+            </button>
+        </form>
+
+        <div id="resultContainer" class="mt-6 hidden">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Prediction Result</h2>
+            <div class="space-y-2">
+                <div>
+                    <label class="block text-gray-700 font-medium">Predicted Condition:</label>
+                    <p id="predictedCondition" class="text-gray-800 bg-gray-100 p-2 rounded"></p>
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-medium">Confidence Level:</label>
+                    <p id="confidenceLevel" class="text-gray-800 bg-gray-100 p-2 rounded"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("symptomForm").addEventListener("submit", async function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const symptoms = document.getElementById("symptoms").value;
+            const response = await fetch(this.action, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ symptoms })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById("resultContainer").classList.remove("hidden");
+                document.getElementById("predictedCondition").textContent = data.predictions.condition || "N/A";
+                document.getElementById("confidenceLevel").textContent = data.predictions.confidence || "N/A";
+            } else {
+                alert("An error occurred while processing your request.");
+            }
+        });
+    </script>
+</body>
+</html>

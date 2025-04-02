@@ -1,9 +1,11 @@
 from flask import Flask, request, jsonify, render_template, session, redirect, url_for
 import sqlite3
-import openai  # Ensure you are using the correct OpenAI library
+from dotenv import load_dotenv 
+import openai  
+import os
 
-# Set your OpenAI API key
-openai.api_key = "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"
+load_dotenv()  
+openai.api_key = os.getenv("OPENAI_API_KEY")  
 
 app = Flask(__name__)
 app.secret_key = '21d0e23d66f1b3914a7e3a48ce32c90abccf88be7d083e5432329f9d7eb3c4be'

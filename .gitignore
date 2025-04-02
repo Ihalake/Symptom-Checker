@@ -1,0 +1,10 @@
+````bash
+# filepath: c:\Users\abdif\OneDrive\Desktop\Check-symptom\.gitignore
+
+# Ignore environment files
+.env
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+```

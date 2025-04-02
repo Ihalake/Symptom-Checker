@@ -8,7 +8,7 @@ load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")  
 
 app = Flask(__name__)
-app.secret_key = '21d0e23d66f1b3914a7e3a48ce32c90abccf88be7d083e5432329f9d7eb3c4be'
+app.secret_key = os.getenv("SECRET_KEY")
 
 
 # Database setup
